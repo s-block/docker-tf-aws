@@ -13,6 +13,9 @@ RUN apk add --no-cache \
 # Install AWS CLI via apk (simplest approach)
 RUN apk add --no-cache aws-cli
 
+# Install Node.js 20 (LTS) and npm
+RUN apk add --no-cache nodejs-lts npm
+
 # Install Terraform
 ARG TERRAFORM_VERSION=1.13.1
 RUN ARCH=$(uname -m) \
@@ -31,6 +34,6 @@ USER terraform
 WORKDIR /workspace
 
 # Verify installations
-RUN terraform --version && aws --version && jq --version
+RUN terraform --version && aws --version && jq --version && node --version && npm --version
 
 CMD ["/bin/bash"]

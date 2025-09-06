@@ -1,3 +1,6 @@
+ARG NODE_VERSION=20.16.0
+FROM node:${NODE_VERSION}-alpine AS node
+
 FROM alpine:3.20
 
 # Install dependencies
@@ -13,8 +16,8 @@ RUN apk add --no-cache \
 # Install AWS CLI via apk (simplest approach)
 RUN apk add --no-cache aws-cli
 
-# Install Node.js 20 (LTS) and npm
-RUN apk add --no-cache nodejs-lts npm
+# Copy full Node.js installation (includes npm, npx, corepack, shims)
+COPY --from=node /usr/local/ /usr/local/
 
 # Install Terraform
 ARG TERRAFORM_VERSION=1.13.1
